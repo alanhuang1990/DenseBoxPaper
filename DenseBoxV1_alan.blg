@@ -1,0 +1,46 @@
+This is BibTeX, Version 0.99d (TeX Live 2013)
+Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
+The top-level auxiliary file: DenseBoxV1_alan.aux
+The style file: abbrv.bst
+Database file #1: section/references.bib.bib
+You've used 31 entries,
+            2118 wiz_defined-function locations,
+            653 strings with 9503 characters,
+and the built_in function-call counts, 12190 in all, are:
+= -- 1198
+> -- 671
+< -- 12
++ -- 264
+- -- 232
+* -- 824
+:= -- 1989
+add.period$ -- 101
+call.type$ -- 31
+change.case$ -- 206
+chr.to.int$ -- 0
+cite$ -- 31
+duplicate$ -- 477
+empty$ -- 868
+format.name$ -- 232
+if$ -- 2587
+int.to.chr$ -- 0
+int.to.str$ -- 31
+missing$ -- 31
+newline$ -- 158
+num.names$ -- 62
+pop$ -- 234
+preamble$ -- 1
+purify$ -- 175
+quote$ -- 0
+skip$ -- 368
+stack$ -- 0
+substring$ -- 645
+swap$ -- 152
+text.length$ -- 12
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 124
+warning$ -- 0
+while$ -- 103
+width$ -- 33
+write$ -- 338

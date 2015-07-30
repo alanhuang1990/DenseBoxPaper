@@ -1,0 +1,183 @@
+\begin{thebibliography}{10}
+
+\bibitem{bertasius2014deepedge}
+G.~Bertasius, J.~Shi, and L.~Torresani.
+\newblock Deepedge: A multi-scale bifurcated deep network for top-down contour
+  detection.
+\newblock {\em arXiv preprint arXiv:1412.1123}, 2014.
+
+\bibitem{cinbis2013segmentation}
+R.~G. Cinbis, J.~Verbeek, and C.~Schmid.
+\newblock Segmentation driven object detection with fisher vectors.
+\newblock In {\em Computer Vision (ICCV), 2013 IEEE International Conference
+  on}, pages 2968--2975. IEEE, 2013.
+
+\bibitem{dalal2005histograms}
+N.~Dalal and B.~Triggs.
+\newblock Histograms of oriented gradients for human detection.
+\newblock In {\em Computer Vision and Pattern Recognition, 2005. CVPR 2005.
+  IEEE Computer Society Conference on}, volume~1, pages 886--893. IEEE, 2005.
+
+\bibitem{erhan2014scalable}
+D.~Erhan, C.~Szegedy, A.~Toshev, and D.~Anguelov.
+\newblock Scalable object detection using deep neural networks.
+\newblock In {\em Computer Vision and Pattern Recognition (CVPR), 2014 IEEE
+  Conference on}, pages 2155--2162. IEEE, 2014.
+
+\bibitem{farfade2015multi}
+S.~S. Farfade, M.~Saberian, and L.-J. Li.
+\newblock Multi-view face detection using deep convolutional neural networks.
+\newblock {\em arXiv preprint arXiv:1502.02766}, 2015.
+
+\bibitem{felzenszwalb2010object}
+P.~F. Felzenszwalb, R.~B. Girshick, D.~McAllester, and D.~Ramanan.
+\newblock Object detection with discriminatively trained part-based models.
+\newblock {\em Pattern Analysis and Machine Intelligence, IEEE Transactions
+  on}, 32(9):1627--1645, 2010.
+
+\bibitem{Geiger2012CVPR}
+A.~Geiger, P.~Lenz, and R.~Urtasun.
+\newblock Are we ready for autonomous driving? the kitti vision benchmark
+  suite.
+\newblock In {\em Conference on Computer Vision and Pattern Recognition
+  (CVPR)}, 2012.
+
+\bibitem{girshick2015fast}
+R.~Girshick.
+\newblock Fast r-cnn.
+\newblock {\em arXiv preprint arXiv:1504.08083}, 2015.
+
+\bibitem{girshick2014rich}
+R.~Girshick, J.~Donahue, T.~Darrell, and J.~Malik.
+\newblock Rich feature hierarchies for accurate object detection and semantic
+  segmentation.
+\newblock In {\em Computer Vision and Pattern Recognition (CVPR), 2014 IEEE
+  Conference on}, pages 580--587. IEEE, 2014.
+
+\bibitem{jain2010fddb}
+V.~Jain and E.~G. Learned-Miller.
+\newblock Fddb: A benchmark for face detection in unconstrained settings.
+\newblock {\em UMass Amherst Technical Report}, 2010.
+
+\bibitem{krizhevsky2012imagenet}
+A.~Krizhevsky, I.~Sutskever, and G.~E. Hinton.
+\newblock Imagenet classification with deep convolutional neural networks.
+\newblock In {\em Advances in neural information processing systems}, pages
+  1097--1105, 2012.
+
+\bibitem{LencV15}
+K.~Lenc and A.~Vedaldi.
+\newblock {R-CNN} minus {R}.
+\newblock {\em arXiv preprint}, abs/1506.06981, 2015.
+
+\bibitem{li2014integrating}
+B.~Li, T.~Wu, and S.-C. Zhu.
+\newblock Integrating context and occlusion for car detection by hierarchical
+  and-or model.
+\newblock In {\em Computer Vision--ECCV 2014}, pages 652--667. Springer, 2014.
+
+\bibitem{li2015convolutional}
+H.~Li, Z.~Lin, X.~Shen, J.~Brandt, and G.~Hua.
+\newblock A convolutional neural network cascade for face detection.
+\newblock In {\em Proceedings of the IEEE Conference on Computer Vision and
+  Pattern Recognition}, pages 5325--5334, 2015.
+
+\bibitem{liu2015parsenet}
+W.~Liu, A.~Rabinovich, and A.~C. Berg.
+\newblock Parsenet: Looking wider to see better.
+\newblock {\em arXiv preprint arXiv:1506.04579}, 2015.
+
+\bibitem{long2015accurate}
+C.~Long, X.~Wang, G.~Hua, M.~Yang, and Y.~Lin.
+\newblock Accurate object detection with location relaxation and regionlets
+  re-localization.
+\newblock In {\em Computer Vision--ACCV 2014}, pages 260--275. Springer, 2015.
+
+\bibitem{long2014fully}
+J.~Long, E.~Shelhamer, and T.~Darrell.
+\newblock Fully convolutional networks for semantic segmentation.
+\newblock {\em arXiv preprint arXiv:1411.4038}, 2014.
+
+\bibitem{lowe2004distinctive}
+D.~G. Lowe.
+\newblock Distinctive image features from scale-invariant keypoints.
+\newblock {\em International journal of computer vision}, 60(2):91--110, 2004.
+
+\bibitem{ouyang2014deepid}
+W.~Ouyang, P.~Luo, X.~Zeng, S.~Qiu, Y.~Tian, H.~Li, S.~Yang, Z.~Wang, Y.~Xiong,
+  C.~Qian, et~al.
+\newblock Deepid-net: multi-stage and deformable deep convolutional neural
+  networks for object detection.
+\newblock {\em arXiv preprint arXiv:1409.3505}, 2014.
+
+\bibitem{pinheiro2015learning}
+P.~O. Pinheiro, R.~Collobert, and P.~Dollar.
+\newblock Learning to segment object candidates.
+\newblock {\em arXiv preprint arXiv:1506.06204}, 2015.
+
+\bibitem{YOLO}
+J.~Redmon, S.~K. Divvala, R.~B. Girshick, and A.~Farhadi.
+\newblock You only look once: Unified, real-time object detection.
+\newblock {\em arXiv preprint}, abs/1506.02640, 2015.
+
+\bibitem{ren2015faster}
+S.~Ren, K.~He, R.~Girshick, and J.~Sun.
+\newblock Faster r-cnn: Towards real-time object detection with region proposal
+  networks.
+\newblock {\em arXiv preprint arXiv:1506.01497}, 2015.
+
+\bibitem{rowley1998neural}
+H.~Rowley, S.~Baluja, T.~Kanade, et~al.
+\newblock Neural network-based face detection.
+\newblock {\em Pattern Analysis and Machine Intelligence, IEEE Transactions
+  on}, 20(1):23--38, 1998.
+
+\bibitem{rowley1998rotation}
+H.~Rowley, S.~Baluja, T.~Kanade, et~al.
+\newblock Rotation invariant neural network-based face detection.
+\newblock In {\em Computer Vision and Pattern Recognition, 1998. Proceedings.
+  1998 IEEE Computer Society Conference on}, pages 38--44. IEEE, 1998.
+
+\bibitem{sermanet2013overfeat}
+P.~Sermanet, D.~Eigen, X.~Zhang, M.~Mathieu, R.~Fergus, and Y.~LeCun.
+\newblock Overfeat: Integrated recognition, localization and detection using
+  convolutional networks.
+\newblock {\em arXiv preprint arXiv:1312.6229}, 2013.
+
+\bibitem{simonyan2014very}
+K.~Simonyan and A.~Zisserman.
+\newblock Very deep convolutional networks for large-scale image recognition.
+\newblock {\em arXiv preprint arXiv:1409.1556}, 2014.
+
+\bibitem{szegedy2014going}
+C.~Szegedy, W.~Liu, Y.~Jia, P.~Sermanet, S.~Reed, D.~Anguelov, D.~Erhan,
+  V.~Vanhoucke, and A.~Rabinovich.
+\newblock Going deeper with convolutions.
+\newblock {\em arXiv preprint arXiv:1409.4842}, 2014.
+
+\bibitem{tompson2014joint}
+J.~J. Tompson, A.~Jain, Y.~LeCun, and C.~Bregler.
+\newblock Joint training of a convolutional network and a graphical model for
+  human pose estimation.
+\newblock In {\em Advances in Neural Information Processing Systems}, pages
+  1799--1807, 2014.
+
+\bibitem{vaillant1994original}
+R.~Vaillant, C.~Monrocq, and Y.~Le~Cun.
+\newblock Original approach for the localisation of objects in images.
+\newblock {\em IEE Proceedings-Vision, Image and Signal Processing},
+  141(4):245--250, 1994.
+
+\bibitem{xiang2015data}
+Y.~Xiang, W.~Choi, Y.~Lin, and S.~Savarese.
+\newblock Data-driven 3d voxel patterns for object category recognition.
+\newblock In {\em Proceedings of the IEEE Conference on Computer Vision and
+  Pattern Recognition}, pages 1903--1911, 2015.
+
+\bibitem{faceevaluation15}
+B.~Yang, J.~Yan, Z.~Lei, and S.~Z. Li.
+\newblock Fine-grained evaluation on face detection in the wild.
+\newblock In {\em Automatic Face and Gesture Recognition (FG), 11th IEEE
+  International Conference on}. IEEE, 2015.
+
+\end{thebibliography}
