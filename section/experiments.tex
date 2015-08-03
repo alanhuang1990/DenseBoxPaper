@@ -2,7 +2,7 @@
  
 \section{Experiments}
 
-In this section, we demonstrate the performance of DenseBoxNet on MALF(Multi-Attribute Labelled Faces) dataset\cite{faceevaluation15}  and KITTI\cite{Geiger2012CVPR} car detection task. We also evaluate our method on those tasks with or without the help of landmark annotation, showing that multi-task learning with landmark localization can significantly boost the performance. We compare our results with current the state-of-the-art systems, which shows that our method achieves competitive results on object detection tasks.  
+In this section, we demonstrate the performance of DenseBox on MALF(Multi-Attribute Labelled Faces) dataset\cite{faceevaluation15}  and KITTI\cite{Geiger2012CVPR} car detection task. We also evaluate our method on those tasks with or without the help of landmark annotation, showing that multi-task learning with landmark localization can significantly boost the performance. We compare our results with current the state-of-the-art systems, which shows that our method achieves competitive results on object detection tasks.  Nothe that we do not compare the performances of our DenseBox with original R-CNN directly on those task, but we highlight the performances of other methods which claim to use R-CNN or those methods have alrealy compared themselves to R-CNN. 
 
 \subsection{ MALF  Detection Task}
 The MALF detection test dataset contains 5,000 images in collected from the Internet. Unlike the widely used FDDB\cite{jain2010fddb} face detection benchmark, which is collected from news photos and the pose tends to be frontal, the face images in MALF have much larger diversity, making it closer to real world application than FDDB. 
@@ -15,7 +15,7 @@ The MALF detection test dataset contains 5,000 images in collected from the Inte
 	\label{fig:fig_landmark}
 	\end{figure}
 \textbf{Results.} 
-We illustrate the results of three versions of DenseBoxNet on MALF dataset. The ``DenseBoxNoLandmark’’ denotes DenseBoxNet without landmark in training. ``DenseBoxLandmark’’ is the model incorporating landmark localization, and ``DenseBoxEnsemble’’ is the result of ensembling 10 DenseBoxNets with landmarks from different batch iterations. As shown in Fig \ref{fig:fig_malf}, landmark localization gives a significant performance boost on face detection.  We also notice that the models trained with different batch iterations still have high diversity since another significant boost has been seen by model ensemble. Then we compare our best model with other state-of-the-art methods on MALF. Surprisingly, our model achieves the best performance, with mean recall rate of $87.26\%$, almost outperform DDFD by $10\%$, which claims to have better performance than R-CNN on face detection task. 
+We illustrate the results of three versions of DenseBox on MALF dataset. The ``DenseBoxNoLandmark’’ denotes DenseBox without landmark in training. ``DenseBoxLandmark’’ is the model incorporating landmark localization, and ``DenseBoxEnsemble’’ is the result of ensembling 10 DenseBox with landmarks from different batch iterations. As shown in Fig \ref{fig:fig_malf}, landmark localization gives a significant performance boost on face detection.  We also notice that the models trained with different batch iterations still have high diversity since another significant boost has been seen by model ensemble. Then we compare our best model with other state-of-the-art methods on MALF. Surprisingly, our model achieves the best performance, with mean recall rate of $87.26\%$, almost outperform DDFD by $10\%$, which claims to have better performance than R-CNN on face detection task. 
  
  
 \begin{figure} 
@@ -27,7 +27,7 @@ We illustrate the results of three versions of DenseBoxNet on MALF dataset. The 
     \centering 
     \includegraphics[scale = 0.5]{figures/MALF_2.eps}  (b)
   \end{minipage} 
- \caption{  \textbf{Result on MALF dataset. }  (a) Comparison of different versions of DenseBoxNet; (b)The curves and mean recall rate of DenseBoxNet and other methods;  }\label{fig:fig_malf}
+ \caption{  \textbf{Result on MALF dataset. }  (a) Comparison of different versions of DenseBox; (b)The curves and mean recall rate of DenseBox and other methods;  }\label{fig:fig_malf}
 \end{figure}
 
  
@@ -59,16 +59,22 @@ The KITTI object detection benchmark consists of 7481 training images and 7518 t
 	DenseBox (without landmark)	&85.07\%	&82.33\%	&76.27\%   \\
 	DenseBox (withlandmark)		&85.74\%	&83.63\%	&76.71\%     \\
  
-
 	\hline
 	\end{tabular}
 	\caption{The Averate Presision on KITTI Car Detection Task} 
 	\label{tab:tab_kitti}
 	\end{table}
-\textbf{Results.} Table \ref{tab:tab_kitti} shows the results of DenseBoxNet and other methods. We can see that partially annotated landmark information (27\%) still can boost detection performance. On average, model with landmark localization slightly outperforms no-landmark model by 0.9\% in average precision.  The promotion on performance is not as great as in face detection.  The reason could be that the landmark information is not sufficient.  The insufficient lies on both the amount (27\% in car while 100\% in face) and the quality (8 landmarks in car whereas 74 in face). Compared with other methods, the DenseBoxNet still achieves competitive results.  DenseBoxNet defeats traditional detection system such as Regionlets and spCov by a large margin. Our average precision on moderate car is 85.74\%, slightly better than DeepInsight, which use R-CNN framework with ImageNet pre-trained GoogLeNet\cite{szegedy2014going}.  Our model has been ranked as the top 1 for 4 months until an anonymous submission titled  ``NIPS ID 331’’, which use stereo information for training and testing. Recently a method named ``DJML’’ overtakes all other methods. 
 
+\textbf{Results.} Table \ref{tab:tab_kitti} shows the results of DenseBox and other methods. We can see that partially annotated landmark information (27\%) still can boost detection performance. On average, model with landmark localization slightly outperforms no-landmark model by 0.9\% in average precision.  The promotion on performance is not as great as in face detection.  The reason could be that the landmark information is not sufficient.  The insufficient lies on both the amount (27\% in car while 100\% in face) and the quality (8 landmarks in car whereas 74 in face). Compared with other methods, the DenseBox still achieves competitive results.  DenseBox defeats traditional detection system such as Regionlets and spCov by a large margin. Our average precision on moderate car is 85.74\%, slightly better than DeepInsight, which use R-CNN framework with ImageNet pre-trained GoogLeNet\cite{szegedy2014going}.  Our model has been ranked as the top 1 for 4 months until an anonymous submission titled  ``NIPS ID 331’’, which use stereo information for training and testing. Recently a method named ``DJML’’ overtakes all other methods. 
 
+	\begin{figure}[!hbtp]
+	\centering
+	 \includegraphics[scale=0.4]{figures/figure5-crop.pdf}
+	\caption{\textbf{Examples on both the MALF detection set KITTI car detection set. }The numbers above the bounding boxes are the confidence score. Our system works very well in complex scene where objects are small and highly occluded. However, it still could miss some objects and generate false alarm.     }
+	\label{fig:fig_case}
+	\end{figure}
 \section{Conclusion}
 
-We have presented the DenseBoxNet, a unified end-to-end detection pipeline for detection. The performance can be boosted easily by incorporating landmark information. We also analysis our method and other related object detection system, highlighting the difference and the contribution of DenseBoxNet.  The DenseBoxNet achieves impressive performance on both face detection and car detection task, demonstrating its high suitable for situation where proposal generation might fail. The only problem of DenseBoxNet is the speed.  The original DenseBoxNet presented in this paper needs several seconds to process one image. But this has been addressed by now.  We will present another paper describing a real-time detection system on KITTI and face detection, called DenseBoxNet2.  
+We have presented the DenseBox, a unified end-to-end detection pipeline for detection. The performance can be boosted easily by incorporating landmark information. We also analysis our method and other related object detection system, highlighting the difference and the contribution of DenseBox.  The DenseBox achieves impressive performance on both face detection and car detection task, demonstrating its high suitable for situation where proposal generation might fail. The key problem of DenseBox is the speed.  The original DenseBox presented in this paper needs several seconds to process one image. But this has been addressed by now.  We will present another paper describing a real-time detection system on KITTI and face detection, called DenseBox2.  
+
 
