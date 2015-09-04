@@ -1,37 +1,35 @@
- 
 \section{DenseBox for Detection }
 \label{sec:model} 
-	\begin{figure}[!hbtp]
-	\centering
-	 \includegraphics[scale=0.39]{figures/figure1-crop.pdf}
-	\caption{\textbf{The DenseBox Detection Pipeline.} 1) Image pyramid is fed to the network. 2) After several layers of convolution and pooling, upsampling feature map back and apply convolution layers to get final output. 3) Convert output feature map to bounding boxes , and apply non-maximum suppression to all bounding boxes over the threshold. }
-	\label{fig:fig_overview}
-	\end{figure}
 
+\begin{figure}[!hbtp]
+\centering
+\includegraphics[scale=0.39]{figures/figure1-crop.pdf}
+\caption{\textbf{The DenseBox Detection Pipeline.} 1) Image pyramid is fed to the network. 2) After several layers of convolution and pooling, upsampling feature map back and apply convolution layers to get final output. 3) Convert output feature map to bounding boxes, and apply non-maximum suppression to all bounding boxes over the threshold. }
+\label{fig:fig_overview}
+\end{figure}
 
-The whole detection system is illustrated in Fig \ref{fig:fig_overview}. The single convolutional network simultaneously output multiple predicted bounding boxes and class confidence. All components of object detection in DenseBox are modeled as a fully convolutional network except the non-maximum suppression step, so region proposal generation is unnecessary. In the test, the system takes an image (at the size of $m\times n$) as input, and output a $ \frac{m}{4} \times \frac{n}{4} $ feature map with 5 channels.
+Figure~\ref{fig:fig_overview} illustrates the whole detection system of DenseBox. The single convolutional neural network simultaneously outputs multiple predicted bounding boxes and class confidence. All components of object detection in DenseBox are modeled as a fully convolutional network except the non-maximum suppression step, so region proposal generation is unnecessary. In the test, the system takes an image (at the size of $m\times n$) as input, and output a $ \frac{m}{4} \times \frac{n}{4} $ feature map with 5 channels.
 If we define the left top and right bottom points of the target bounding box in output coordinate space as $ p_t = (x_t, y_t)$ and as $ p_b = (x_b, y_b)$ respectively, then each pixel $i$ located at $(x_i, y_i)$ in the output feature map describe a bounding box with a 5-dimensional vector $\hat{t_i } = \{ \hat{s }, \hat{dx^{t}= x_i - x_t,},\hat{dy^{t}} = y_i - y_t,\hat{dx^{b}}= x_i - x_b,\hat{dy^{b}}= y_i - y_b \}_i$ , where $\hat{s }$ is the confidence score of being an object and $\hat{dx^{t}}$, $\hat{dy^{t}}$,$\hat{dx^{b}}$, $\hat{dy^{b}}$ denote the distance between output pixel location with the boundary of target bounding box. Finally every pixel in the output map is converted to bounding box with score, and non-maximum suppression is applied to those boxes whose scores pass the threshold. 
 
 \subsection{Ground Truth Generation} 
 
 It is unnecessary to put the whole image into the network for training because it would take most computational time in convolving on background. A wise strategy is to crop large patches containing faces and sufficient background information for training. In this paper, we train our network on single scale, and apply it to multiple scales for evaluation. 
 
-Generally speaking, our proposed network is trained in a segmentation-like way.   In training, the patches are cropped and resized to $240 \times 240$ with a face in the center roughly has the height of 50 pixels. The output ground truth in training is a 5-channel map sized $60 \times 60 $ , with the down-sampling factor of 4. The positive labeled region in the first channel of ground truth map is a filled circle with radius $r_c$, located in the center of a face bounding box. The radius $r_c$ is proportional to the bounding box size, and its scaling factor is set to be 0.3 to the box size in output coordinate space, as show in Fig \ref{fig:fig_gt}. The remaining 4 channels are filled with the distance between the pixel location of output map between the left top and right bottom corners of the nearest bounding box.  
+Generally speaking, our proposed network is trained in a segmentation-like way.   In training, the patches are cropped and resized to $240 \times 240$ with a face in the center roughly has the height of 50 pixels. The output ground truth in training is a 5-channel map sized $60 \times 60 $ , with the down-sampling factor of 4. The positive labeled region in the first channel of ground truth map is a filled circle with radius $r_c$, located in the center of a face bounding box. The radius $r_c$ is proportional to the bounding box size, and its scaling factor is set to be 0.3 to the box size in output coordinate space, as show in Figure~\ref{fig:fig_gt}. The remaining 4 channels are filled with the distance between the pixel location of output map between the left top and right bottom corners of the nearest bounding box.  
 
-
-	\begin{figure}[!hbtp]
-	\centering
-	 \includegraphics[scale=0.55]{figures/figure2-crop.pdf}
-	\caption{\textbf{The Ground Truth Map in Training .} The left image is the input patch, and the right one is its ground truth map. }
-	\label{fig:fig_gt}
-	\end{figure}
+\begin{figure}[!hbtp]
+\centering
+\includegraphics[scale=0.55]{figures/figure2-crop.pdf}
+\caption{\textbf{The Ground Truth Map in Training .} The left image is the input patch, and the right one is its ground truth map. }
+\label{fig:fig_gt}
+\end{figure}
 
 Note that if multiple faces occur in one patch, we keep those faces as positive if they fall in a scale range(e.g. 0.8 to 1.25 in our setting) relative to the face in patch center. Other faces are treated as negative samples. The pixels of first channel, which denote the confidence score of class, in the ground truth map are initialized with 0, and further set to 1 if within the positive label region.  We also find our ground truth generation is quite similar to the segmentation work\cite{pinheiro2015learning} by Pinheiro et.al.   In their method, the pixel label is decided by the location of object in patch, while in DenseBox, the pixel label is determined by the receptive field. Specifically, if the output pixel is labeled to 1 if it satisfies the constraint that its receptive field contains an object roughly in the center and in a given scale. Each pixel can be treated as one sample , since every 5-channel pixel describe a bounding box.
 
 
 \subsection{Model Design } 
 
-Our network architecture illustrated in Fig \ref{fig:fig_net} is derived from the VGG 19 model used for image classification\cite{simonyan2014very}. The whole network has 16 convolution layers, with the first 12 convolution layers initialized by VGG 19 model.  The output of conv4\_4 is feed into four $1 \times 1$ convolution layers, where the first two convolution layers output 1-channel map for class score, and the second two predict the relative position of bounding box by 4-channel map.  The last $1 \times 1$ convolution layers act as fully connected layers in a sliding-window fashion.  
+Our network architecture illustrated in Figure~\ref{fig:fig_net} is derived from the VGG 19 model used for image classification\cite{simonyan2014very}. The whole network has 16 convolution layers, with the first 12 convolution layers initialized by VGG 19 model.  The output of conv4\_4 is feed into four $1 \times 1$ convolution layers, where the first two convolution layers output 1-channel map for class score, and the second two predict the relative position of bounding box by 4-channel map.  The last $1 \times 1$ convolution layers act as fully connected layers in a sliding-window fashion.  
 
 
 	\begin{figure}[!hbtp]
@@ -68,7 +66,7 @@ The process of selecting negative samples is one of the crucial parts in learnin
 The gray zone is defined on the margin of positive and negative region. It should not be considered to be positive or negative, and its loss weight should be set to $0$.  For each non-positive labeled pixel in the output coordinate space, its ignore flag $f_{ign}$ is set to 1 only if there is any pixel with positive label within $r_{near} = 2$ pixel length.  
 
 \textbf{Hard Negative Mining.} 
-Analogous to hard-negative mining procedure in SVM, we make learning more efficient by searching the badly predicted samples rather than random samples. After negative mining, the badly predicted samples are very likely to be selected, so that gradient descent learning on those samples leads more robust prediction with less noise. Specifically, negative mining can be performed efficiently by online bootstrap. In the forward propagation phase, we sort the loss (Eq \ref{eq:eq_cls_loss}) of output pixels in decending order, and assign the top 1\% to be hard-negative.   In all experiments, we keep all positive labeled pixels(samples) and the ratio of positive and negative to be 1:1.  Among all negative samples, half of them are sampled from hard-negative samples, and the remaining half are selected randomly from non-hard negative. For convenience, we set a flag $f_{sel} = 1$ to those pixels (samples) selected in a mini-batch. 
+Analogous to hard-negative mining procedure in SVM, we make learning more efficient by searching the badly predicted samples rather than random samples. After negative mining, the badly predicted samples are very likely to be selected, so that gradient descent learning on those samples leads more robust prediction with less noise. Specifically, negative mining can be performed efficiently by online bootstrap. In the forward propagation phase, we sort the loss (Equation~\ref{eq:eq_cls_loss}) of output pixels in decending order, and assign the top 1\% to be hard-negative.   In all experiments, we keep all positive labeled pixels(samples) and the ratio of positive and negative to be 1:1.  Among all negative samples, half of them are sampled from hard-negative samples, and the remaining half are selected randomly from non-hard negative. For convenience, we set a flag $f_{sel} = 1$ to those pixels (samples) selected in a mini-batch. 
 
 \textbf{Loss with Mask.} 
 Now we can define the mask $M(\hat{t}_i)$ for each sample $\hat{t}_i = \{ \hat{y}_i, \hat{d}_i \}$ as a function of flags mentioned above:
@@ -79,7 +77,7 @@ Now we can define the mask $M(\hat{t}_i)$ for each sample $\hat{t}_i = \{ \hat{y
 	1 & \text{otherwise} \\
 	\end{cases}
 	\end{eqnarray}
- Then if we combine the classification (Eq \ref{eq:eq_cls_loss})  and bounding box regression (Eq \ref{eq:eq_loc_loss}) loss with masks, our full multi-task loss can be represented as ,
+ Then if we combine the classification (Equation~\ref{eq:eq_cls_loss})  and bounding box regression (Equation~\ref{eq:eq_loc_loss}) loss with masks, our full multi-task loss can be represented as ,
 	\begin{equation}\label{eq:eq_det_loss}
 	\mathcal{L} _{det}(\theta) =  \sum_{i}  \left ( M(\hat{t}_i) \mathcal{L} _{cls}(\hat{y}_i,y^*_i) + \lambda_{loc} [y^*_i >0]M(\hat{t}_i) \mathcal{L} _{loc}(\hat{d}_i,d^*_i) \right )
 	\end{equation}
@@ -98,7 +96,7 @@ We use mini-batch SGD in training and the batch size is set to 10. The loss and 
 	\caption{\textbf{Top: } The pipeline of DenseBox with landmark localization. \textbf{Bottom: } The network structure for landmark localization. }
 	\label{fig:fig_refine}
 	\end{figure}
-In this part, we show that landmark localization can be achieved in DenseBox just by stacking a few layers owe to the fully convolution architecture. Moreover, we can refine detection results through the fusion of landmark heatmaps and face score map. As shown in Fig \ref{fig:fig_refine},  we incorporate another sibling branch output for landmark localization. Suppose there are $N$ landmarks, the landmark localization branch outputs N response maps, with each pixel represent the confidence score of being a landmark at that location.  The appearance of ground-truth maps used for this task is quite similar to the ground-truth for detection.  For a landmark instance $l^k_i$, the $i$th instance of landmark $k$, its ground-truth is a positive labeled region located at the corresponding location on the $k$th response map in the output coordinate space.  Note that the radius $r_l$ should be relative small (e.g. $r_l = 1$  )to prevent loss of accuracy.   Similar to classification task, the landmark localization loss $\mathcal{L} _{lm}$is defined as a $L2$ loss between predicted values and labels, and we still apply the negative mining and ignore region discussed in the previous section. 
+In this part, we show that landmark localization can be achieved in DenseBox just by stacking a few layers owe to the fully convolution architecture. Moreover, we can refine detection results through the fusion of landmark heatmaps and face score map. As shown in Figure~\ref{fig:fig_refine},  we incorporate another sibling branch output for landmark localization. Suppose there are $N$ landmarks, the landmark localization branch outputs N response maps, with each pixel represent the confidence score of being a landmark at that location.  The appearance of ground-truth maps used for this task is quite similar to the ground-truth for detection.  For a landmark instance $l^k_i$, the $i$th instance of landmark $k$, its ground-truth is a positive labeled region located at the corresponding location on the $k$th response map in the output coordinate space.  Note that the radius $r_l$ should be relative small (e.g. $r_l = 1$  )to prevent loss of accuracy.   Similar to classification task, the landmark localization loss $\mathcal{L} _{lm}$is defined as a $L2$ loss between predicted values and labels, and we still apply the negative mining and ignore region discussed in the previous section. 
 
 The final output refine branch, taking the classification score map and landmark localization maps as input, targets on refine of the detection results.  An appropriate solution could be using high-level spatial model to learn the constraints of landmark confidence and bounding box score, to further increase the performance of detections. Tompson et.al.\cite{tompson2014joint} proposed a MRF-like model using modified convolution (SoftPlus convolution) with non-negative output to connect the distribution of spatial location for each body part.  However, their model also include $Log$ and $Exp$ stages, which make model difficult to train.  In our implementation, we use convolutions with ReLU activation to approximate the spatial model.  If we denote the refine detection loss as $\mathcal{L} _{rf}$, which is almost the same as the classification loss $\mathcal{L} _{cls}$ mentioned before but the predict map is from the refine branch, the full loss becomes as ,
 	\begin{equation}\label{eq:eq_full_loss}
