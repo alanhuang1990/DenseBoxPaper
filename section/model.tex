@@ -11,6 +11,17 @@
 Figure~\ref{fig:fig_overview} illustrates the whole detection system of DenseBox. The single convolutional neural network simultaneously outputs multiple predicted bounding boxes and class confidences. All components of  detection in DenseBox are modeled as a fully convolutional network except the non-maximum suppression step, so region proposal generation is unnecessary. In the test, the system takes an image (at the size of $m\times n$) as input, and outputs a $ \frac{m}{4} \times \frac{n}{4} $ feature map with 5 channels.
 If we define the left top and right bottom points of the target bounding box in output coordinate space as $ p_t = (x_t, y_t)$ and $ p_b = (x_b, y_b)$ respectively, then each pixel $i$ located at $(x_i, y_i)$ in the output feature map describe a bounding box with a 5-dimensional vector $\hat{t_i } = \{ \hat{s }, \hat{dx^{t}= x_i - x_t,},\hat{dy^{t}} = y_i - y_t,\hat{dx^{b}}= x_i - x_b,\hat{dy^{b}}= y_i - y_b \}_i$ , where $\hat{s }$ is the confidence score of being an  and $\hat{dx^{t}}$, $\hat{dy^{t}}$,$\hat{dx^{b}}$, $\hat{dy^{b}}$ denote the distance between output pixel location and the boundaries of target bounding box. Finally every pixel in the output map is converted to a bounding box with a score, and non-maximum suppression is applied to those boxes whose scores pass the threshold. 
 
+\subsection{Model Design} 
+
+Our network architecture illustrated in Figure~\ref{fig:fig_net} is derived from the VGG 19 model used for image classification\cite{simonyan2014very}. The whole network has 16 convolution layers, with the first 12 convolution layers initialized by VGG 19 model. The output of conv4\_4 is feed into four $1 \times 1$ convolution layers, where the first two convolution layers output 1-channel map for class score, and the second two predict the relative position of bounding box by 4-channel map. The last $1 \times 1$ convolution layers act as fully connected layers in a sliding-window fashion.  
+
+\begin{figure}[!hbtp]
+\centering
+ \includegraphics[scale=0.55]{figures/figure3-crop.pdf}
+\caption{\textbf{Network architecture of DenseBox.} The rectangles with red names contain learnable parameters. }
+\label{fig:fig_net}
+\end{figure}
+
 \subsection{Ground Truth Generation} 
 
 In most images, it is unnecessary to put the whole image into the network for training because the s are usually sparsely located hence it would take most computational time in convolving on background. A wise strategy is to crop large patches containing objects and sufficient background information during training. In this paper, we train our network on single scale, and apply it to multiple scales for evaluation. 
@@ -20,26 +31,11 @@ Our proposed network is trained in a segmentation-like way. During training, the
 \begin{figure}[!hbtp]
 \centering
 \includegraphics[scale=0.55]{figures/figure2-crop.pdf}
-\caption{\textbf{The Ground Truth Map in Training .} The left image is the input patch, and the right one is its ground truth map. }
+\caption{\textbf{The Ground Truth Map in Training.} The left image is the input patch, and the right one is its ground truth map.}
 \label{fig:fig_gt}
 \end{figure}
 
 Note that if multiple faces occur in one patch, we keep those faces as positive if they fall in a scale range(e.g. 0.8 to 1.25 in our setting) relative to the face in patch center. Other faces are treated as negative samples. The pixels of first channel, which denote the confidence score of class, in the ground truth map are initialized with 0, and further set to 1 if within the positive label region.  We also find our ground truth generation is quite similar to the segmentation work\cite{pinheiro2015learning} by Pinheiro et.al.   In their method, the pixel label is decided by the location of  in patch, while in DenseBox, the pixel label is determined by the receptive field. Specifically, if the output pixel is labeled to 1 if it satisfies the constraint that its receptive field contains an object roughly in the center and in a given scale. Each pixel can be treated as one sample , since every 5-channel pixel describe a bounding box.
-
-
-\subsection{Model Design } 
-
-Our network architecture illustrated in Figure~\ref{fig:fig_net} is derived from the VGG 19 model used for image classification\cite{simonyan2014very}. The whole network has 16 convolution layers, with the first 12 convolution layers initialized by VGG 19 model.  The output of conv4\_4 is feed into four $1 \times 1$ convolution layers, where the first two convolution layers output 1-channel map for class score, and the second two predict the relative position of bounding box by 4-channel map.  The last $1 \times 1$ convolution layers act as fully connected layers in a sliding-window fashion.  
-
-
-	\begin{figure}[!hbtp]
-	\centering
-	 \includegraphics[scale=0.55]{figures/figure3-crop.pdf}
-	\caption{\textbf{Network architecture of DenseBox.} The rectangles with red names contain learnable parameters. }
-	\label{fig:fig_net}
-	\end{figure}
-
-
 
 \textbf{Multi-Level Feature Fusion.} 
 Recent works\cite{bertasius2014deepedge, liu2015parsenet} indicate that using features from different convolution layers can enhance performance in task such as edge detection and segmentation. Part-level feature focus on local details of  to find discriminative appearance parts, while object-level or high-level feature usually has a larger receptive field in order to recognize object. The larger receptive field also brings in context information to predict more accurate result. In our implementation, we concatenate feature map from conv3\_4 and conv4\_4. The receptive field (or sliding window size) of conv3\_4 is $48 \times 48$, almost the same size of the face size in training, and the conv4\_4 have a much larger receptive field, around $118 \times 118$ in size, which could utilize global textures and context for detection.  Note that the feature map size of conv4\_4 is half of the map generated by conv3\_4, hence we use a bilinear up-sampling layer to transform them to the same resolution. 
